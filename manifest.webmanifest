@@ -1,0 +1,19 @@
+{
+  "name": "QuestWeek",
+  "short_name": "QuestWeek",
+  "description": "Weekly planning, habits, XP, life quests and routines.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080b12",
+  "theme_color": "#7457ff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
