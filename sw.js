@@ -1,9 +1,10 @@
-const CACHE_NAME = "questweek-v6";
+const CACHE_NAME = "questweek-v7";
 const ASSETS = [
   "./",
   "./index.html",
   "./questweek-v3.css",
   "./questweek-v3.js",
+  "./questweek-order-fix.js",
   "./manifest.webmanifest",
   "./icon.svg"
 ];
