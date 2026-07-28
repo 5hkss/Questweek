@@ -1,0 +1,1 @@
+(()=>{'use strict';const style=document.createElement('style');style.textContent='.cal{display:none!important}';document.head.appendChild(style);})();
