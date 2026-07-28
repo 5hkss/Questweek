@@ -1,0 +1,14 @@
+(()=>{'use strict';
+const originalRaw=raw;
+raw=function(){return originalRaw().map(x=>x.t==='Lunch'&&x.d>=0&&x.d<=4?{...x,start:'11:45',end:'12:15'}:x)};
+const style=document.createElement('style');style.textContent=`.qwFocus{position:fixed;inset:0;background:rgba(7,10,18,.98);z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}.qwFocus.show{display:flex}.qwFocusTime{font-size:64px;font-weight:850;letter-spacing:-2px;margin:20px 0}.qwFocusActions{display:flex;gap:10px;width:min(100%,420px)}.qwFocusActions>*{flex:1}@media(max-width:430px){.qwFocusTime{font-size:52px}}`;document.head.appendChild(style);
+const overlay=document.createElement('div');overlay.className='qwFocus';overlay.innerHTML=`<span class="pill">CURRENT QUEST</span><h1 id="qwFocusTitle" style="margin-top:18px"></h1><div class="qwFocusTime" id="qwFocusTime">60:00</div><div class="qwFocusActions"><button class="btn secondary" id="qwPause">Pause</button><button class="btn" id="qwComplete">Complete</button></div><button class="btn danger" id="qwCancel" style="margin-top:12px">End without completing</button>`;document.body.appendChild(overlay);
+let timer=null,remaining=0,current=null;
+const paint=()=>{const m=Math.floor(remaining/60),s=remaining%60;qwFocusTime.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`};
+const finish=complete=>{clearInterval(timer);timer=null;if(complete&&current){S.done[current.id]=true;save()}overlay.classList.remove('show');current=null;render()};
+const start=x=>{current=x;remaining=Math.max(60,(mn(x.end)-mn(x.start))*60);qwFocusTitle.textContent=x.t;paint();overlay.classList.add('show');clearInterval(timer);timer=setInterval(()=>{remaining--;paint();if(remaining<=0)finish(true)},1000)};
+qwPause.onclick=()=>{if(timer){clearInterval(timer);timer=null;qwPause.textContent='Resume'}else{timer=setInterval(()=>{remaining--;paint();if(remaining<=0)finish(true)},1000);qwPause.textContent='Pause'}};qwComplete.onclick=()=>finish(true);qwCancel.onclick=()=>finish(false);
+const originalRender=render;
+render=function(){originalRender();const A=tasks(),d=di(),T=sort(A.filter(x=>x.d===d));const main=T.filter(x=>!x.fixed&&!x.auto&&!S.done[x.id]).sort((a,b)=>(b.p||1)-(a.p||1)||mn(a.start)-mn(b.start))[0];let button=document.getElementById('qwFocusBtn');if(!button){button=document.createElement('button');button.id='qwFocusBtn';button.className='btn';button.style.marginTop='12px';mainTime.parentElement.appendChild(button)}button.textContent='Start Focus Mode';button.style.display=main?'inline-block':'none';button.onclick=main?()=>start(main):null};
+render();
+})();
